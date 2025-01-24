@@ -1,0 +1,46 @@
+pipeline {
+    agent none  
+
+    stages {
+        stage('Frontend (Node.js) Version') {
+            agent {
+                docker 'node:14'  
+            }
+            steps {
+                echo 'Checking Node.js version'
+                sh 'node --version'
+                sh 'npm --version'
+            }
+        }
+
+        stage('Backend (Maven) Version') {
+            agent {
+                docker 'maven:3.8.1-jdk-11'  
+            }
+            steps {
+                echo 'Checking Maven version'
+                sh 'mvn -v'
+                sh 'java -version'
+            }
+        }
+
+        stage('Database (MySQL) Version') {
+            agent {
+                docker 'mysql:8.0'  
+            }
+            steps {
+                echo 'Checking MySQL version'
+                sh 'mysql --version'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Version checks completed successfully!'
+        }
+        failure {
+            echo 'Version check failed. Check the logs.'
+        }
+    }
+}
