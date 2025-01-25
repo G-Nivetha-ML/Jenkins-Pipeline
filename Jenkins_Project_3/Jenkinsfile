@@ -5,7 +5,7 @@ pipeline {
         stage('Git Checkout') {
             steps {
                 echo 'Checking out the code from Git repository...'
-                git 'https://github.com/G-Nivetha-ML/Jenkins-Pipeline.git'
+                git branch: 'main', url: 'https://github.com/G-Nivetha-ML/Jenkins-Pipeline.git'
 
             }
         }
