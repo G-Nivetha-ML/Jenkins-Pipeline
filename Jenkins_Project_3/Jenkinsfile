@@ -1,0 +1,53 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Git Checkout') {
+            steps {
+                echo 'Checking out the code from Git repository...'
+                 git 'https://github.com/G-Nivetha-ML/Jenkins-Pipeline/tree/main/Jenkins_Project_3'
+        }
+
+        stage('Build') {
+            steps {
+                echo 'Building the project...'
+                sh './Build.sh' 
+            }
+        }
+
+        stage('Unit Test') {
+            steps {
+                echo 'Running unit tests...'
+                sh './Unit.sh'  
+            }
+        }
+
+        stage('Quality') {
+            steps {
+                echo 'Running quality checks...'
+                sh './Quality.sh'  
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo 'Deploying the project...'
+                sh './Deploy.sh' 
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'This block always runs, regardless of the pipeline result.'
+        }
+
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+
+        failure {
+            echo 'Pipeline failed.'
+        }
+    }
+}
